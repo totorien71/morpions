@@ -25,7 +25,25 @@ def jouer():
         print(f"Tour du joueur {joueur}")
         
         # Choix de la case
-        ligne, colonne = map(int, input("Choisissez une ligne et une colonne (0, 1 ou 2) : ").split())
+        saisie = input("Choisissez une ligne et une colonne (0, 1 ou 2) : ")
+
+
+        print(saisie)
+
+        try:
+            if len(saisie) == 2 and saisie.isdigit():
+                ligne, colonne = int(saisie[0]), int(saisie[1])
+            elif "," in saisie:
+                ligne, colonne = map(int, saisie.split(","))
+            else:
+                ligne, colonne = map(int, saisie.split())
+        except ValueError:
+            print("Format invalide. Veuillez entrer deux chiffres séparés par un espace, une virgule ou sans séparateur.")
+            continue
+
+        #ligne, colonne = map(int, input("Choisissez une ligne et une colonne (0, 1 ou 2) : ").split())
+
+
         
         # Vérification si la case est libre
         if grille[ligne][colonne] == " ":
