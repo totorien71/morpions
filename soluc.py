@@ -45,6 +45,7 @@ def jouer():
 
 
         
+
         # Vérification si la case est libre
         if grille[ligne][colonne] == " ":
             grille[ligne][colonne] = joueur

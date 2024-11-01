@@ -8,6 +8,9 @@ def afficher_grille():
         print("-" * 5)
 
 # Fonction pour vérifier la victoire
+# snake_case
+# PascalCase
+# camelCase
 def verifier_victoire(symbole):
     # Vérifier les lignes, colonnes et diagonales
     for i in range(3):
@@ -17,6 +20,15 @@ def verifier_victoire(symbole):
         return True
     return False
 
+def input_is_valid(user_input):
+    res = False
+    try:
+        ligne, colonne = map(int, user_input.split())
+        res = True
+    except ValueError:
+        print("Format invalide. Veuillez entrer deux chiffres séparés par un espace, une virgule ou sans séparateur.")
+    return res
+
 # Fonction principale pour jouer au morpion
 def jouer():
     joueur = "X"
@@ -24,8 +36,11 @@ def jouer():
         afficher_grille()
         print(f"Tour du joueur {joueur}")
         
+        saisie = input("joue")
+        while not input_is_valid(saisie) : saisie = input("joue")
+
         # Choix de la case
-        ligne, colonne = map(int, input("Choisissez une ligne et une colonne (0, 1 ou 2) : ").split())
+        ligne, colonne = map(int, saisie.split())
         
         # Vérification si la case est libre
         if grille[ligne][colonne] == " ":
