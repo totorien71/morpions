@@ -5,7 +5,8 @@ grille = [[" " for _ in range(3)] for _ in range(3)]
 
 # Fonction pour afficher la grille
 def afficher_grille():
-    for ligne in grille:
+    for ligne in grille
+    
         print("|".join(ligne))
         print("-" * 5)
 
