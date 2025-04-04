@@ -4,4 +4,12 @@ def exo5():
         s=s+i
     print(s) 
 
-exo5()
+
+def exo6():
+    s=500
+    a=0
+    while s<1000:
+        s=1.03*s
+        a=a+1
+    print(a)
+exo6()
