@@ -10,5 +10,9 @@ def accueil():
 def contact():
     return render_template('contact.html')
 
+@app.route('/apropos')
+def apropos():
+    return render_template('apropos.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
