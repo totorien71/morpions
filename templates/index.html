@@ -1,17 +1,8 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Mon Site Python</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <nav>
-        <a href="/">Accueil</a>
-        <a href="/contact">Contact</a>
-    </nav>
+{% extends "base.html" %}
 
+{% block titre %}Accueil{% endblock %}
+
+{% block contenu %}
     <h1>Bienvenue sur mon site web en Python ! 🎉</h1>
     <p>Ceci est une vraie page HTML.</p>
-</body>
-</html>
+{% endblock %}

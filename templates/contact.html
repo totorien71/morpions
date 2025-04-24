@@ -1,17 +1,9 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Page Contact</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <nav>
-        <a href="/">Accueil</a>
-        <a href="/contact">Contact</a>
-    </nav>
+{% extends "base.html" %}
 
+{% block titre %}Contact{% endblock %}
+
+{% block contenu %}
     <h1>Contact</h1>
     <p>Voici la page contact de mon site web.</p>
-</body>
-</html>
+{% endblock %}
+

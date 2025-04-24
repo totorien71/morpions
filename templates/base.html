@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block titre %}Mon site{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav>
+        <a href="/">Accueil</a>
+        <a href="/contact">Contact</a>
+    </nav>
+
+    <div class="contenu">
+        {% block contenu %}
+        <!-- Contenu spécifique à chaque page -->
+        {% endblock %}
+    </div>
+</body>
+</html>
