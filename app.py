@@ -14,5 +14,9 @@ def contact():
 def apropos():
     return render_template('apropos.html')
 
+@app.route('/morpion')
+def morpion():
+    return render_template('morpion.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
