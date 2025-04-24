@@ -1,0 +1,18 @@
+body{
+    font-family: Arial, sans-serif;
+    margin:40px;
+}
+nav{
+    background-color: #333;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+nav a{
+    color: white;
+    text-decoration: none;
+    margin-right: 15px;
+    font-weight: bold;
+}
+nav a:hover{
+    text-decoration: underline;
+}
