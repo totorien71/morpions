@@ -1,20 +1,14 @@
 {% extends "base.html" %}
 
-{% block titre %}Jeu du Morpion{% endblock %}
+{% block titre %}Morpion{% endblock %}
 
 {% block contenu %}
-<h1>🎮 Morpion</h1>
+<h1>🎮 Jeu du Morpion</h1>
 
 <div id="plateau">
-    <div class="case"></div>
-    <div class="case"></div>
-    <div class="case"></div>
-    <div class="case"></div>
-    <div class="case"></div>
-    <div class="case"></div>
-    <div class="case"></div>
-    <div class="case"></div>
-    <div class="case"></div>
+    {% for i in range(9) %}
+        <div class="case" data-index="{{ i }}"></div>
+    {% endfor %}
 </div>
 
 <p id="message"></p>
@@ -24,8 +18,8 @@
     let cases = Array(9).fill("");
 
     document.addEventListener("DOMContentLoaded", () => {
-        document.querySelectorAll(".case").forEach((element, index) => {
-            element.addEventListener("click", () => jouer(index));
+        document.querySelectorAll(".case").forEach((caseElement, index) => {
+            caseElement.addEventListener("click", () => jouer(index));
         });
     });
 
