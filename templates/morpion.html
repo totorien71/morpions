@@ -60,35 +60,36 @@
         [0,4,8], [2,4,6]
     ];
 
-    // 1. Gagner si possible
-    for (let [a, b, c] of combinaisons) {
+    // 1. Tente de gagner s'il peut
+    for (let combi of combinaisons) {
+        const [a, b, c] = combi;
         if (cases[a] === "O" && cases[b] === "O" && cases[c] === "") return jouer(c);
         if (cases[a] === "O" && cases[b] === "" && cases[c] === "O") return jouer(b);
         if (cases[a] === "" && cases[b] === "O" && cases[c] === "O") return jouer(a);
     }
 
-    // 2. Bloquer si l'adversaire va gagner
-    for (let [a, b, c] of combinaisons) {
-        if (cases[a] === "X" && cases[b] === "X" && cases[c] === "") return jouer(c);
-        if (cases[a] === "X" && cases[b] === "" && cases[c] === "X") return jouer(b);
-        if (cases[a] === "" && cases[b] === "X" && cases[c] === "X") return jouer(a);
+    // 2. Tente de bloquer le joueur, mais pas toujours (70 % du temps)
+    if (Math.random() < 0.7) {
+        for (let combi of combinaisons) {
+            const [a, b, c] = combi;
+            if (cases[a] === "X" && cases[b] === "X" && cases[c] === "") return jouer(c);
+            if (cases[a] === "X" && cases[b] === "" && cases[c] === "X") return jouer(b);
+            if (cases[a] === "" && cases[b] === "X" && cases[c] === "X") return jouer(a);
+        }
     }
 
-    // 3. Prendre le centre
-    if (cases[4] === "") return jouer(4);
+    // 3. Sinon, joue au hasard
+    const casesVides = cases
+        .map((val, idx) => val === "" ? idx : null)
+        .filter(idx => idx !== null);
 
-    // 4. Prendre un coin
-    const coins = [0, 2, 6, 8];
-    for (let i of coins) {
-        if (cases[i] === "") return jouer(i);
-    }
+    if (casesVides.length === 0) return;
 
-    // 5. Prendre un côté
-    const cotes = [1, 3, 5, 7];
-    for (let i of cotes) {
-        if (cases[i] === "") return jouer(i);
-    }
+    const choix = casesVides[Math.floor(Math.random() * casesVides.length)];
+    jouer(choix);
 }
+
+
 
        
 
