@@ -65,7 +65,7 @@
             if (cases[a] === "" && cases[b] === "X" && cases[c] === "X") return jouer(a);
         }
         const casesVides = cases
-            .map((val, idix) => val === ""? idx: null)
+            .map((val, idx) => val === ""? idx: null)
             .filter(idx => idx !== null);
 
         if (casesVides.length === 0) return;
