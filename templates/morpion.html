@@ -96,7 +96,9 @@
         cases = Array(9).fill("");
         document.querySelectorAll(".case").forEach(c => c.textContent = "");
         document.getElementById("message").textContent = "";
-        joueur = "X";
+        joueur = "O";
+
+        setTimeout(tourDuBot, 500);
     }
 </script>
 {% endblock %}
