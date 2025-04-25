@@ -6,9 +6,15 @@
 <h1>🎮 Morpion</h1>
 
 <div id="plateau">
-    {% for i in range(9) %}
-        <div class="case" data-index="{{ i }}"></div>
-    {% endfor %}
+    <div class="case"></div>
+    <div class="case"></div>
+    <div class="case"></div>
+    <div class="case"></div>
+    <div class="case"></div>
+    <div class="case"></div>
+    <div class="case"></div>
+    <div class="case"></div>
+    <div class="case"></div>
 </div>
 
 <p id="message"></p>
@@ -17,19 +23,18 @@
     let joueur = "X";
     let cases = Array(9).fill("");
 
-    // Quand la page est chargée
-    window.onload = function () {
-        document.querySelectorAll(".case").forEach((c, index) => {
-            c.addEventListener("click", () => jouer(index));
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".case").forEach((element, index) => {
+            element.addEventListener("click", () => jouer(index));
         });
-    };
+    });
 
     function jouer(index) {
         if (cases[index] !== "" || verifierGagnant()) return;
 
         cases[index] = joueur;
         document.querySelectorAll(".case")[index].textContent = joueur;
-        
+
         if (verifierGagnant()) {
             document.getElementById("message").textContent = "Le joueur " + joueur + " a gagné ! 🎉";
         } else {
@@ -49,4 +54,3 @@
     }
 </script>
 {% endblock %}
-
