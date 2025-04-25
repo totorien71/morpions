@@ -16,3 +16,22 @@ nav a{
 nav a:hover{
     text-decoration: underline;
 }
+#plateau {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-gap: 5px;
+    margin: 20px auto;
+    width: max-content;
+}
+
+.case {
+    width: 100px;
+    height: 100px;
+    font-size: 40px;
+    text-align: center;
+    line-height: 100px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    border: 2px solid #333;
+}
+
