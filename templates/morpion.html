@@ -47,13 +47,30 @@
     }
 
     function tourDuBot() {
+        const combinaisons = [
+        [0,1,2], [3,4,5], [6,7,8],
+        [0,3,6], [1,4,7], [2,5,8],
+        [0,4,8], [2,4,6]
+        ];
+        for (let combi of combinaisons){
+            const [a, b, c] = combi;
+            if (cases[a] === "O" && cases[b] === "O" && cases[c] === "") return jouer(c);
+            if (cases[a] === "O" && cases[b] === "" && cases[c] === "O") return jouer(b);
+            if (cases[a] === "" && cases[b] === "O" && cases[c] === "O") return jouer(a);
+        }
+        for (let combi of combinaisons){
+            const [a, b, c] = combi;
+            if (cases[a] === "X" && cases[b] === "X" && cases[c] ==="") return jouer(c);
+            if (cases[a] === "X" && cases[b] === "" && cases[c] === "X") return jouer(b);
+            if (cases[a] === "" && cases[b] === "X" && cases[c] === "X") return jouer(a);
+        }
         const casesVides = cases
-            .map((val, idx) => val === "" ? idx : null)
+            .map((val, idix) => val === ""? idx: null)
             .filter(idx => idx !== null);
 
-        if (casesVides.length === 0 || verifierGagnant()) return;
+        if (casesVides.length === 0) return;
 
-        const choix = casesVides[Math.floor(Math.random() * casesVides.length)];
+        const choix = casesVides[Math.floor(Math.random()*casesVides.length)];
         jouer(choix);
     }
 
