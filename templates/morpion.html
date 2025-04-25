@@ -20,7 +20,11 @@
 
     document.addEventListener("DOMContentLoaded", () => {
         document.querySelectorAll(".case").forEach((caseElement, index) => {
-            caseElement.addEventListener("click", () => jouer(index));
+            caseElement.addEventListener("click", () => {
+                if (joueur === "X") {
+                    jouer(index);
+                }
+            });
         });
     });
 
@@ -32,9 +36,25 @@
 
         if (verifierGagnant()) {
             document.getElementById("message").textContent = "Le joueur " + joueur + " a gagné ! 🎉";
-        } else {
-            joueur = joueur === "X" ? "O" : "X";
+            return;
         }
+
+        joueur = joueur === "X" ? "O" : "X";
+
+        if (joueur === "O") {
+            setTimeout(tourDuBot, 500); // petit délai pour simuler une "réflexion"
+        }
+    }
+
+    function tourDuBot() {
+        const casesVides = cases
+            .map((val, idx) => val === "" ? idx : null)
+            .filter(idx => idx !== null);
+
+        if (casesVides.length === 0 || verifierGagnant()) return;
+
+        const choix = casesVides[Math.floor(Math.random() * casesVides.length)];
+        jouer(choix);
     }
 
     function verifierGagnant() {
@@ -49,7 +69,6 @@
     }
 
     function rejouer() {
-        console.log("Rejouer appuyé");
         cases = Array(9).fill("");
         document.querySelectorAll(".case").forEach(c => c.textContent = "");
         document.getElementById("message").textContent = "";
