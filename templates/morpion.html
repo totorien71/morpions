@@ -12,6 +12,7 @@
 </div>
 
 <p id="message"></p>
+<button onclick="rejouer()">rejouer</button>
 
 <script>
     let joueur = "X";
@@ -45,6 +46,13 @@
         return combinaisons.some(c =>
             cases[c[0]] && cases[c[0]] === cases[c[1]] && cases[c[1]] === cases[c[2]]
         );
+    function rejouer() {
+        cases = Array(9).fill("");
+        document.querySelectorAll(".case").forEach(c=> c.textContent ="");
+        document.getElementById("message").textContent = "";
+        joueur = "X";
     }
+}
+
 </script>
 {% endblock %}
