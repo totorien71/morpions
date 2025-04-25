@@ -15,18 +15,25 @@
 <button onclick="rejouer()">🔁 Rejouer</button>
 
 <script>
-    let joueur = "X";
+    let joueur = "O";
     let cases = Array(9).fill("");
 
     document.addEventListener("DOMContentLoaded", () => {
-        document.querySelectorAll(".case").forEach((caseElement, index) => {
-            caseElement.addEventListener("click", () => {
-                if (joueur === "X") {
-                    jouer(index);
-                }
-            });
+    document.querySelectorAll(".case").forEach((caseElement, index) => {
+        caseElement.addEventListener("click", () => {
+            if (joueur === "X") {
+                jouer(index);
+            }
         });
     });
+
+    // ✅ Le bot commence s’il est joueur O
+    if (joueur === "O") {
+        setTimeout(tourDuBot, 500);
+    }
+});
+
+    
 
     function jouer(index) {
         if (cases[index] !== "" || verifierGagnant()) return;
