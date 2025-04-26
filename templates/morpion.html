@@ -24,7 +24,7 @@
 
 <button onclick="rejouer()" id="btn-rejouer" style="display: none;">Rejouer</button>
 <button onclick="resetScore()" id="btn-reset" style="display: none;">Réinitialiser Scores</button>
-
+<script>
 let joueur = "X";
 let cases = Array(9).fill("");
 let scoreX = 0;
@@ -151,6 +151,6 @@ function mettreAJourScore() {
     document.getElementById("scoreX").textContent = scoreX;
     document.getElementById("scoreO").textContent = scoreO;
 }
-
+</script>
 
 {% endblock %}
