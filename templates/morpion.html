@@ -3,7 +3,7 @@
 {% block titre %}Morpion{% endblock %}
 
 {% block contenu %}
-<<h1>🎮 Jeu du Morpion</h1>
+<h1>🎮 Jeu du Morpion</h1>
 
 <div id="choix-mode">
     <button onclick="choisirMode('bot')">Contre le Bot</button>
@@ -18,12 +18,14 @@
 
 <p id="message"></p>
 
+<!-- Ce bloc est très important pour les scores -->
 <div id="score" style="display: none;">
     Joueur X : <span id="scoreX">0</span> | Joueur O : <span id="scoreO">0</span>
 </div>
 
 <button onclick="rejouer()" id="btn-rejouer" style="display: none;">Rejouer</button>
 <button onclick="resetScore()" id="btn-reset" style="display: none;">Réinitialiser Scores</button>
+
 <script>
 let joueur = "X";
 let cases = Array(9).fill("");
