@@ -60,7 +60,7 @@
         [0,4,8], [2,4,6]
     ];
 
-    // 1. Tente de gagner s'il peut
+    // 1. Tenter de gagner
     for (let combi of combinaisons) {
         const [a, b, c] = combi;
         if (cases[a] === "O" && cases[b] === "O" && cases[c] === "") return jouer(c);
@@ -68,17 +68,26 @@
         if (cases[a] === "" && cases[b] === "O" && cases[c] === "O") return jouer(a);
     }
 
-    // 2. Tente de bloquer le joueur, mais pas toujours (70 % du temps)
-    if (Math.random() < 0.7) {
-        for (let combi of combinaisons) {
-            const [a, b, c] = combi;
-            if (cases[a] === "X" && cases[b] === "X" && cases[c] === "") return jouer(c);
-            if (cases[a] === "X" && cases[b] === "" && cases[c] === "X") return jouer(b);
-            if (cases[a] === "" && cases[b] === "X" && cases[c] === "X") return jouer(a);
-        }
+    // 2. Bloquer le joueur
+    for (let combi of combinaisons) {
+        const [a, b, c] = combi;
+        if (cases[a] === "X" && cases[b] === "X" && cases[c] === "") return jouer(c);
+        if (cases[a] === "X" && cases[b] === "" && cases[c] === "X") return jouer(b);
+        if (cases[a] === "" && cases[b] === "X" && cases[c] === "X") return jouer(a);
     }
 
-    // 3. Sinon, joue au hasard
+    // 3. Prendre le centre
+    if (cases[4] === "") return jouer(4);
+
+    // 4. Prendre un coin
+    const coins = [0, 2, 6, 8];
+    const coinsLibres = coins.filter(i => cases[i] === "");
+    if (coinsLibres.length > 0) {
+        const choix = coinsLibres[Math.floor(Math.random() * coinsLibres.length)];
+        return jouer(choix);
+    }
+
+    // 5. Sinon, jouer au hasard
     const casesVides = cases
         .map((val, idx) => val === "" ? idx : null)
         .filter(idx => idx !== null);
@@ -88,10 +97,7 @@
     const choix = casesVides[Math.floor(Math.random() * casesVides.length)];
     jouer(choix);
 }
-
-
-
-       
+      
 
     function verifierGagnant() {
         const combinaisons = [
