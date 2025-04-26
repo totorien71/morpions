@@ -5,6 +5,9 @@
 {% block contenu %}
 <h1>🎮 Jeu du Morpion</h1>
 
+<button onclick="choisirMode(1)">1 joueur</button>
+<button onclick="choisirMode(2)">2 joueurs</button>
+
 <div id="score">
     <p> joueur X <span id="score X">0 </span></p>
     <p>🤖 Bot O : <span id="scoreO">0</span></p>
@@ -26,6 +29,8 @@
     let joueur = "O";
     let cases = Array(9).fill("");
 
+    let modedejeu = 1;
+
     let scoreX = 0;
     let scoreO = 0;
     let scoreNul = 0;
@@ -33,17 +38,21 @@
     document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".case").forEach((caseElement, index) => {
         caseElement.addEventListener("click", () => {
-            if (joueur === "X") {
-                jouer(index);
+            if (modeDeJeu === 2) {
+                jouer(index); // mode 2 joueurs
+            } else {
+                if (joueur === "X") jouer(index); // mode solo : seul X joue
             }
         });
     });
+});
+
 
     // ✅ Le bot commence s’il est joueur O
     if (joueur === "O") {
         setTimeout(tourDuBot, 500);
     }
-});
+
 
     
 
@@ -169,6 +178,11 @@ if (!cases.includes("")) {
         document.getElementById("scoreX").textContent = scoreX
         document.getElementById("scoreO").textContent = scoreO;
         document.getElementById("scoreNul").textContent = scoreNul;
+    }
+
+    function choisirMode(mode) {
+        modedejeu = mode;
+        rejouer();
     }
 
 </script>
