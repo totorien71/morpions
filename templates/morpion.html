@@ -5,14 +5,6 @@
 {% block contenu %}
 <h1>🎮 Jeu du Morpion</h1>
 
-
-<div id="scores">
-    <p>Joueur X : <span id="scoreX">0</span></p>
-    <p>Bot O : <span id="scoreO">0</span></p>
-    <p>Matchs nuls : <span id="scoreNuls">0</span></p>
-</div>
-
-
 <div id="plateau">
     {% for i in range(9) %}
         <div class="case" data-index="{{ i }}"></div>
@@ -20,147 +12,129 @@
 </div>
 
 <p id="message"></p>
-<button onclick="rejouer()">🔁 Rejouer</button>
+
+<!-- Affichage des scores -->
+<p>Joueur X : <span id="scoreX">0</span></p>
+<p>Bot O : <span id="scoreO">0</span></p>
+<p>Matchs nuls : <span id="scoreNuls">0</span></p>
+
+<button onclick="rejouer()">Rejouer</button>
+<button onclick="resetScores()">Réinitialiser Scores</button>
 
 <script>
-    let joueur = "X";
-    let cases = Array(9).fill("");
-    let scoreJoueur = 0;
-    let scoreBot = 0;
-    let matchNuls = 0;
-    let jeuEnCours = true;
-    
-    document.addEventListener("DOMContentLoaded", () => {
-        document.querySelectorAll(".case").forEach((caseElement, index) => {
-            caseElement.addEventListener("click", () => {
-                if (jeuEnCours && joueur === "X") {
-                    jouer(index);
-                }
-            });
-        });
-        updateScores();
-    });
-    
-    function jouer(index) {
-        if (cases[index] !== "" || !jeuEnCours) return;
-    
-        cases[index] = joueur;
-        document.querySelectorAll(".case")[index].textContent = joueur;
-    
-        if (verifierGagnant()) {
-            document.getElementById("message").textContent = `Le joueur ${joueur} a gagné ! 🎉`;
-            if (joueur === "X") {
-                scoreJoueur++;
-            } else {
-                scoreBot++;
+// --- Script du Morpion ---
+
+let joueur = "X";
+let cases = Array(9).fill("");
+let scoreX = 0;
+let scoreO = 0;
+let scoreNuls = 0;
+let jeuFini = false;
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".case").forEach((caseElement, index) => {
+        caseElement.addEventListener("click", () => {
+            if (joueur === "X" && !jeuFini) {
+                jouer(index);
             }
-            updateScores();
-            jeuEnCours = false;
-            return;
-        }
-    
-        if (cases.every(c => c !== "")) {
-            document.getElementById("message").textContent = "Match nul ! 🤝";
-            jeuEnCours = false;
-            return;
-        }
-    
-        joueur = joueur === "X" ? "O" : "X";
-    
-        if (joueur === "O" && jeuEnCours) {
-            setTimeout(tourDuBot, 500);
-        }
+        });
+    });
+    // Si c'est au bot de commencer
+    if (joueur === "O") {
+        setTimeout(tourDuBot, 500);
     }
-    
-    function tourDuBot() {
-        // stratégie du bot intelligente
-        const combinaisons = [
-            [0,1,2], [3,4,5], [6,7,8],
-            [0,3,6], [1,4,7], [2,5,8],
-            [0,4,8], [2,4,6]
-        ];
-    
-        for (let combi of combinaisons){
-            const [a, b, c] = combi;
-            if (cases[a] === "O" && cases[b] === "O" && cases[c] === "") return jouer(c);
-            if (cases[a] === "O" && cases[b] === "" && cases[c] === "O") return jouer(b);
-            if (cases[a] === "" && cases[b] === "O" && cases[c] === "O") return jouer(a);
+});
+
+function jouer(index) {
+    if (cases[index] !== "" || jeuFini) return;
+
+    cases[index] = joueur;
+    document.querySelectorAll(".case")[index].textContent = joueur;
+
+    if (verifierGagnant()) {
+        document.getElementById("message").textContent = "Le joueur " + joueur + " a gagné ! 🎉";
+        if (joueur === "X") {
+            scoreX++;
+            document.getElementById("scoreX").textContent = scoreX;
+        } else {
+            scoreO++;
+            document.getElementById("scoreO").textContent = scoreO;
         }
-        for (let combi of combinaisons){
-            const [a, b, c] = combi;
-            if (cases[a] === "X" && cases[b] === "X" && cases[c] === "") return jouer(c);
-            if (cases[a] === "X" && cases[b] === "" && cases[c] === "X") return jouer(b);
-            if (cases[a] === "" && cases[b] === "X" && cases[c] === "X") return jouer(a);
-        }
-    
-        const casesVides = cases
-            .map((val, idx) => val === "" ? idx : null)
-            .filter(idx => idx !== null);
-    
-        if (casesVides.length === 0) return;
-    
-        const choix = casesVides[Math.floor(Math.random() * casesVides.length)];
-        jouer(choix);
+        jeuFini = true;
+        return;
     }
-    
-    function verifierGagnant() {
+
+    if (cases.every(c => c !== "")) {
+        document.getElementById("message").textContent = "Match nul ! 🤝";
+        scoreNuls++;
+        document.getElementById("scoreNuls").textContent = scoreNuls;
+        jeuFini = true;
+        return;
+    }
+
+    joueur = joueur === "X" ? "O" : "X";
+
+    if (joueur === "O" && !jeuFini) {
+        setTimeout(tourDuBot, 500);
+    }
+}
+
+function tourDuBot() {
     const combinaisons = [
         [0,1,2], [3,4,5], [6,7,8],
         [0,3,6], [1,4,7], [2,5,8],
         [0,4,8], [2,4,6]
     ];
-
-    for (let c of combinaisons) {
-        if (cases[c[0]] && cases[c[0]] === cases[c[1]] && cases[c[1]] === cases[c[2]]) {
-            jeuEnCours = false;
-            if (joueur === "X") {
-                scoreX++;
-            } else {
-                scoreO++;
-            }
-            mettreAJourScore();
-            return true;
-        }
+    for (let combi of combinaisons) {
+        const [a, b, c] = combi;
+        if (cases[a] === "O" && cases[b] === "O" && cases[c] === "") return jouer(c);
+        if (cases[a] === "O" && cases[b] === "" && cases[c] === "O") return jouer(b);
+        if (cases[a] === "" && cases[b] === "O" && cases[c] === "O") return jouer(a);
     }
-
-    // Vérifier le match nul
-    if (cases.every(c => c !== "")) {
-        jeuEnCours = false;
-        matchNuls++;
-        document.getElementById("message").textContent = "Match nul ! 🤝";
-        mettreAJourScore();
-        return true;
+    for (let combi of combinaisons) {
+        const [a, b, c] = combi;
+        if (cases[a] === "X" && cases[b] === "X" && cases[c] === "") return jouer(c);
+        if (cases[a] === "X" && cases[b] === "" && cases[c] === "X") return jouer(b);
+        if (cases[a] === "" && cases[b] === "X" && cases[c] === "X") return jouer(a);
     }
-
-    return false;
+    const casesVides = cases
+        .map((val, idx) => val === "" ? idx : null)
+        .filter(idx => idx !== null);
+    if (casesVides.length === 0) return;
+    const choix = casesVides[Math.floor(Math.random() * casesVides.length)];
+    jouer(choix);
 }
 
-    function rejouer() {
+function verifierGagnant() {
+    const combinaisons = [
+        [0,1,2], [3,4,5], [6,7,8],
+        [0,3,6], [1,4,7], [2,5,8],
+        [0,4,8], [2,4,6]
+    ];
+    return combinaisons.some(c =>
+        cases[c[0]] && cases[c[0]] === cases[c[1]] && cases[c[1]] === cases[c[2]]
+    );
+}
+
+function rejouer() {
     cases = Array(9).fill("");
     document.querySelectorAll(".case").forEach(c => c.textContent = "");
     document.getElementById("message").textContent = "";
-    jeuEnCours = true;
-    
-    joueur = Math.random() < 0.5 ? "X" : "O"; // tirage au sort
-
+    jeuFini = false;
+    joueur = Math.random() < 0.5 ? "X" : "O"; // parfois c'est le bot qui commence
     if (joueur === "O") {
         setTimeout(tourDuBot, 500);
     }
 }
 
-    
-    function resetScores() {
-        scoreJoueur = 0;
-        scoreBot = 0;
-        updateScores();
-    }
-    
-    function mettreAJourScore() {
+function resetScores() {
+    scoreX = 0;
+    scoreO = 0;
+    scoreNuls = 0;
     document.getElementById("scoreX").textContent = scoreX;
     document.getElementById("scoreO").textContent = scoreO;
-    document.getElementById("scoreNuls").textContent = matchNuls;
+    document.getElementById("scoreNuls").textContent = scoreNuls;
 }
-
-    </script>
+</script>
 
 {% endblock %}
