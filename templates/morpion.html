@@ -7,11 +7,11 @@
 
 
 <div id="scores">
-    <p>Score Joueur : <span id="score-joueur">0</span></p>
-    <p>Score Bot : <span id="score-bot">0</span></p>
+    <p>Joueur X : <span id="scoreX">0</span></p>
+    <p>Bot O : <span id="scoreO">0</span></p>
+    <p>Matchs nuls : <span id="scoreNuls">0</span></p>
 </div>
-<button onclick="rejouer()">Rejouer</button>
-<button onclick="resetScores()">Réinitialiser Scores</button>
+
 
 <div id="plateau">
     {% for i in range(9) %}
@@ -27,6 +27,7 @@
     let cases = Array(9).fill("");
     let scoreJoueur = 0;
     let scoreBot = 0;
+    let matchNuls = 0;
     let jeuEnCours = true;
     
     document.addEventListener("DOMContentLoaded", () => {
@@ -103,16 +104,37 @@
     }
     
     function verifierGagnant() {
-        const combinaisons = [
-            [0,1,2], [3,4,5], [6,7,8],
-            [0,3,6], [1,4,7], [2,5,8],
-            [0,4,8], [2,4,6]
-        ];
-        return combinaisons.some(c =>
-            cases[c[0]] && cases[c[0]] === cases[c[1]] && cases[c[1]] === cases[c[2]]
-        );
+    const combinaisons = [
+        [0,1,2], [3,4,5], [6,7,8],
+        [0,3,6], [1,4,7], [2,5,8],
+        [0,4,8], [2,4,6]
+    ];
+
+    for (let c of combinaisons) {
+        if (cases[c[0]] && cases[c[0]] === cases[c[1]] && cases[c[1]] === cases[c[2]]) {
+            jeuEnCours = false;
+            if (joueur === "X") {
+                scoreX++;
+            } else {
+                scoreO++;
+            }
+            mettreAJourScore();
+            return true;
+        }
     }
-    
+
+    // Vérifier le match nul
+    if (cases.every(c => c !== "")) {
+        jeuEnCours = false;
+        matchNuls++;
+        document.getElementById("message").textContent = "Match nul ! 🤝";
+        mettreAJourScore();
+        return true;
+    }
+
+    return false;
+}
+
     function rejouer() {
     cases = Array(9).fill("");
     document.querySelectorAll(".case").forEach(c => c.textContent = "");
@@ -133,10 +155,12 @@
         updateScores();
     }
     
-    function updateScores() {
-        document.getElementById("score-joueur").textContent = scoreJoueur;
-        document.getElementById("score-bot").textContent = scoreBot;
-    }
+    function mettreAJourScore() {
+    document.getElementById("scoreX").textContent = scoreX;
+    document.getElementById("scoreO").textContent = scoreO;
+    document.getElementById("scoreNuls").textContent = matchNuls;
+}
+
     </script>
 
 {% endblock %}
