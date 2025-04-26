@@ -5,6 +5,12 @@
 {% block contenu %}
 <h1>🎮 Jeu du Morpion</h1>
 
+<div id="score">
+    <p> joueur X <span id="score X">0 </span></p>
+    <p>🤖 Bot O : <span id="scoreO">0</span></p>
+    <p>⚖️ Nuls : <span id="scoreNul">0</span></p>
+</div>
+
 <div id="plateau">
     {% for i in range(9) %}
         <div class="case" data-index="{{ i }}"></div>
@@ -17,6 +23,10 @@
 <script>
     let joueur = "O";
     let cases = Array(9).fill("");
+
+    let scoreX = 0;
+    let scoreO = 0;
+    let scoreNul = 0;
 
     document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".case").forEach((caseElement, index) => {
@@ -42,9 +52,22 @@
         document.querySelectorAll(".case")[index].textContent = joueur;
 
         if (verifierGagnant()) {
-            document.getElementById("message").textContent = "Le joueur " + joueur + " a gagné ! 🎉";
-            return;
-        }
+    document.getElementById("message").textContent = "Le joueur " + joueur + " a gagné ! 🎉";
+    if (joueur === "X") {
+        scoreX++;
+        document.getElementById("scoreX").textContent = scoreX;
+    } else {
+        scoreO++;
+        document.getElementById("scoreO").textContent = scoreO;
+    }
+    return;
+}
+
+if (!cases.includes("")) {
+    document.getElementById("message").textContent = "match nul!";
+    scoreNul++;
+    document.getElementById("score nul").textContent = "score nul";
+}
 
         joueur = joueur === "X" ? "O" : "X";
 
