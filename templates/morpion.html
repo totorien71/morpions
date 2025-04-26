@@ -111,12 +111,16 @@
     }
 
     function rejouer() {
-        cases = Array(9).fill("");
-        document.querySelectorAll(".case").forEach(c => c.textContent = "");
-        document.getElementById("message").textContent = "";
-        joueur = "O";
+    cases = Array(9).fill("");
+    document.querySelectorAll(".case").forEach(c => c.textContent = "");
+    document.getElementById("message").textContent = "";
 
-        setTimeout(tourDuBot, 500);
+    joueur = Math.random() < 0.5 ? "X" : "O"; // Choix aléatoire
+
+    if (joueur === "O") {
+        setTimeout(tourDuBot, 500); // Si c'est le bot, il joue direct
     }
+}
+
 </script>
 {% endblock %}
