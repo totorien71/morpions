@@ -5,8 +5,6 @@
 {% block contenu %}
 <h1>🎮 Jeu du Morpion</h1>
 
-<button onclick="choisirMode(1)">1 joueur</button>
-<button onclick="choisirMode(2)">2 joueurs</button>
 
 <div id="score">
     <p> joueur X <span id="score X">0 </span></p>
@@ -14,7 +12,12 @@
     <p>⚖️ Nuls : <span id="scoreNul">0</span></p>
 </div>
 
-<button onclick="resetScore()"> Réinitialiser les scores</button>
+<div>
+    <button onclick="choisirMode(1)">1 joueur</button>
+    <button onclick="choisirMode(2)">2 joueurs</button>
+    <p id="score">X : 0 | O : 0</p>
+    <button onclick="resetScore()">Réinitialiser les scores</button>
+</div>
 
 <div id="plateau">
     {% for i in range(9) %}
@@ -26,127 +29,92 @@
 <button onclick="rejouer()">🔁 Rejouer</button>
 
 <script>
-    let joueur = "O";
+    let joueur = "X";
     let cases = Array(9).fill("");
-
-    let modedejeu = 1;
+    let modeDeJeu = 1; // 1 joueur (contre le bot) par défaut
 
     let scoreX = 0;
     let scoreO = 0;
-    let scoreNul = 0;
 
     document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll(".case").forEach((caseElement, index) => {
-        caseElement.addEventListener("click", () => {
-            if (modeDeJeu === 2) {
-                jouer(index); // mode 2 joueurs
-            } else {
-                if (joueur === "X") jouer(index); // mode solo : seul X joue
-            }
+        document.querySelectorAll(".case").forEach((caseElement, index) => {
+            caseElement.addEventListener("click", () => {
+                if (modeDeJeu === 2 || joueur === "X") {
+                    jouer(index);
+                }
+            });
         });
-    });
-});
 
-
-    // ✅ Le bot commence s’il est joueur O
-    if (joueur === "O") {
-        setTimeout(tourDuBot, 500);
-    }
-
-
-    
-
-function jouer(index) {
-    if (cases[index] !== "" || verifierGagnant()) return;
-
-    cases[index] = joueur;
-    document.querySelectorAll(".case")[index].textContent = joueur;
-
-    if (verifierGagnant()) {
-        document.getElementById("message").textContent = "Le joueur " + joueur + " a gagné ! 🎉";
-        if (joueur === "X") {
-            scoreX++;
-            document.getElementById("scoreX").textContent = scoreX;
-        } else {
-            scoreO++;
-            document.getElementById("scoreO").textContent = scoreO;
+        // au chargement de la page, le bot commence si c'est son tour
+        if (modeDeJeu === 1 && joueur === "O") {
+            setTimeout(tourDuBot, 500);
         }
-        return;
+    });
+
+    function choisirMode(mode) {
+        modeDeJeu = mode;
+        rejouer();
     }
 
-    if (!cases.includes("")) {
-        document.getElementById("message").textContent = "Match nul ! 🤝";
-        scoreNul++;
-        document.getElementById("scoreNul").textContent = scoreNul;
-        return;
-    }
+    function jouer(index) {
+        if (cases[index] !== "" || verifierGagnant()) return;
 
-    joueur = joueur === "X" ? "O" : "X";
+        cases[index] = joueur;
+        document.querySelectorAll(".case")[index].textContent = joueur;
 
-    if (joueur === "O") {
-        setTimeout(tourDuBot, 500);
-    }
-}
+        if (verifierGagnant()) {
+            document.getElementById("message").textContent = "Le joueur " + joueur + " a gagné ! 🎉";
+            if (joueur === "X") scoreX++;
+            else scoreO++;
+            afficherScore();
+            return;
+        }
 
-
-if (!cases.includes("")) {
-    document.getElementById("message").textContent = "match nul!";
-    scoreNul++;
-    document.getElementById("score nul").textContent = "score nul";
-}
+        if (cases.every(c => c !== "")) {
+            document.getElementById("message").textContent = "Match nul ! 🤝";
+            return;
+        }
 
         joueur = joueur === "X" ? "O" : "X";
 
-        if (joueur === "O") {
-            setTimeout(tourDuBot, 500); // petit délai pour simuler une "réflexion"
+        if (modeDeJeu === 1 && joueur === "O") {
+            setTimeout(tourDuBot, 500);
         }
-    
+    }
 
     function tourDuBot() {
-    const combinaisons = [
-        [0,1,2], [3,4,5], [6,7,8],
-        [0,3,6], [1,4,7], [2,5,8],
-        [0,4,8], [2,4,6]
-    ];
+        const combinaisons = [
+            [0,1,2], [3,4,5], [6,7,8],
+            [0,3,6], [1,4,7], [2,5,8],
+            [0,4,8], [2,4,6]
+        ];
 
-    // 1. Tenter de gagner
-    for (let combi of combinaisons) {
-        const [a, b, c] = combi;
-        if (cases[a] === "O" && cases[b] === "O" && cases[c] === "") return jouer(c);
-        if (cases[a] === "O" && cases[b] === "" && cases[c] === "O") return jouer(b);
-        if (cases[a] === "" && cases[b] === "O" && cases[c] === "O") return jouer(a);
+        // Le bot essaie de gagner
+        for (let combi of combinaisons){
+            const [a, b, c] = combi;
+            if (cases[a] === "O" && cases[b] === "O" && cases[c] === "") return jouer(c);
+            if (cases[a] === "O" && cases[b] === "" && cases[c] === "O") return jouer(b);
+            if (cases[a] === "" && cases[b] === "O" && cases[c] === "O") return jouer(a);
+        }
+
+        // Sinon, il bloque le joueur
+        for (let combi of combinaisons){
+            const [a, b, c] = combi;
+            if (cases[a] === "X" && cases[b] === "X" && cases[c] === "") return jouer(c);
+            if (cases[a] === "X" && cases[b] === "" && cases[c] === "X") return jouer(b);
+            if (cases[a] === "" && cases[b] === "X" && cases[c] === "X") return jouer(a);
+        }
+
+        // Sinon, il joue aléatoirement
+        const casesVides = cases
+            .map((val, idx) => val === "" ? idx : null)
+            .filter(idx => idx !== null);
+
+        if (casesVides.length === 0) return;
+
+        const choix = casesVides[Math.floor(Math.random() * casesVides.length)];
+        jouer(choix);
     }
-
-    // 2. Bloquer le joueur
-    for (let combi of combinaisons) {
-        const [a, b, c] = combi;
-        if (cases[a] === "X" && cases[b] === "X" && cases[c] === "") return jouer(c);
-        if (cases[a] === "X" && cases[b] === "" && cases[c] === "X") return jouer(b);
-        if (cases[a] === "" && cases[b] === "X" && cases[c] === "X") return jouer(a);
-    }
-
-    // 3. Prendre le centre
-    if (cases[4] === "") return jouer(4);
-
-    // 4. Prendre un coin
-    const coins = [0, 2, 6, 8];
-    const coinsLibres = coins.filter(i => cases[i] === "");
-    if (coinsLibres.length > 0) {
-        const choix = coinsLibres[Math.floor(Math.random() * coinsLibres.length)];
-        return jouer(choix);
-    }
-
-    // 5. Sinon, jouer au hasard
-    const casesVides = cases
-        .map((val, idx) => val === "" ? idx : null)
-        .filter(idx => idx !== null);
-
-    if (casesVides.length === 0) return;
-
-    const choix = casesVides[Math.floor(Math.random() * casesVides.length)];
-    jouer(choix);
-}
-      
 
     function verifierGagnant() {
         const combinaisons = [
@@ -160,30 +128,25 @@ if (!cases.includes("")) {
     }
 
     function rejouer() {
-    cases = Array(9).fill("");
-    document.querySelectorAll(".case").forEach(c => c.textContent = "");
-    document.getElementById("message").textContent = "";
+        cases = Array(9).fill("");
+        document.querySelectorAll(".case").forEach(c => c.textContent = "");
+        document.getElementById("message").textContent = "";
+        joueur = "X";
 
-    joueur = Math.random() < 0.5 ? "X" : "O"; // Choix aléatoire
-
-    if (joueur === "O") {
-        setTimeout(tourDuBot, 500); // Si c'est le bot, il joue direct
+        if (modeDeJeu === 1 && joueur === "O") {
+            setTimeout(tourDuBot, 500);
+        }
     }
-}
 
-    function resetScore(){
+    function afficherScore() {
+        document.getElementById("score").textContent = `X : ${scoreX} | O : ${scoreO}`;
+    }
+
+    function resetScore() {
         scoreX = 0;
         scoreO = 0;
-        scoreNul = 0;
-        document.getElementById("scoreX").textContent = scoreX
-        document.getElementById("scoreO").textContent = scoreO;
-        document.getElementById("scoreNul").textContent = scoreNul;
+        afficherScore();
     }
-
-    function choisirMode(mode) {
-        modedejeu = mode;
-        rejouer();
-    }
-
 </script>
+
 {% endblock %}
