@@ -11,6 +11,8 @@
     <p>⚖️ Nuls : <span id="scoreNul">0</span></p>
 </div>
 
+<button onclick="resetScore()"> Réinitialiser les scores</button>
+
 <div id="plateau">
     {% for i in range(9) %}
         <div class="case" data-index="{{ i }}"></div>
@@ -144,6 +146,15 @@ if (!cases.includes("")) {
         setTimeout(tourDuBot, 500); // Si c'est le bot, il joue direct
     }
 }
+
+    function resetScore(){
+        scoreX = 0;
+        scoreO = 0;
+        scoreNul = 0;
+        document.getElementById("scoreX").textContent = scoreX
+        document.getElementById("scoreO").textContent = scoreO;
+        document.getElementById("scoreNul").textContent = scoreNul;
+    }
 
 </script>
 {% endblock %}
