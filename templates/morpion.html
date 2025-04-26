@@ -3,9 +3,14 @@
 {% block titre %}Morpion{% endblock %}
 
 {% block contenu %}
-<h1>🎮 Jeu du Morpion</h1>
+<<h1>🎮 Jeu du Morpion</h1>
 
-<div id="plateau">
+<div id="choix-mode">
+    <button onclick="choisirMode('bot')">Contre le Bot</button>
+    <button onclick="choisirMode('humain')">Contre un ami</button>
+</div>
+
+<div id="plateau" style="display: none;">
     {% for i in range(9) %}
         <div class="case" data-index="{{ i }}"></div>
     {% endfor %}
@@ -13,37 +18,45 @@
 
 <p id="message"></p>
 
-<!-- Affichage des scores -->
-<p>Joueur X : <span id="scoreX">0</span></p>
-<p>Bot O : <span id="scoreO">0</span></p>
-<p>Matchs nuls : <span id="scoreNuls">0</span></p>
+<div id="score" style="display: none;">
+    Joueur X : <span id="scoreX">0</span> | Joueur O : <span id="scoreO">0</span>
+</div>
 
-<button onclick="rejouer()">Rejouer</button>
-<button onclick="resetScores()">Réinitialiser Scores</button>
-
-<script>
-// --- Script du Morpion ---
+<button onclick="rejouer()" id="btn-rejouer" style="display: none;">Rejouer</button>
+<button onclick="resetScore()" id="btn-reset" style="display: none;">Réinitialiser Scores</button>
 
 let joueur = "X";
 let cases = Array(9).fill("");
 let scoreX = 0;
 let scoreO = 0;
-let scoreNuls = 0;
+let mode = ""; // 'bot' ou 'humain'
 let jeuFini = false;
 
 document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".case").forEach((caseElement, index) => {
         caseElement.addEventListener("click", () => {
-            if (joueur === "X" && !jeuFini) {
+            if (!jeuFini && joueur === "X") {
+                jouer(index);
+            } else if (!jeuFini && joueur === "O" && mode === "humain") {
                 jouer(index);
             }
         });
     });
-    // Si c'est au bot de commencer
-    if (joueur === "O") {
+});
+
+function choisirMode(selection) {
+    mode = selection;
+    document.getElementById("choix-mode").style.display = "none";
+    document.getElementById("plateau").style.display = "grid";
+    document.getElementById("score").style.display = "block";
+    document.getElementById("btn-rejouer").style.display = "inline-block";
+    document.getElementById("btn-reset").style.display = "inline-block";
+
+    joueur = Math.random() < 0.5 ? "X" : "O";
+    if (mode === "bot" && joueur === "O") {
         setTimeout(tourDuBot, 500);
     }
-});
+}
 
 function jouer(index) {
     if (cases[index] !== "" || jeuFini) return;
@@ -53,28 +66,22 @@ function jouer(index) {
 
     if (verifierGagnant()) {
         document.getElementById("message").textContent = "Le joueur " + joueur + " a gagné ! 🎉";
-        if (joueur === "X") {
-            scoreX++;
-            document.getElementById("scoreX").textContent = scoreX;
-        } else {
-            scoreO++;
-            document.getElementById("scoreO").textContent = scoreO;
-        }
         jeuFini = true;
+        if (joueur === "X") scoreX++;
+        else scoreO++;
+        mettreAJourScore();
         return;
     }
 
     if (cases.every(c => c !== "")) {
         document.getElementById("message").textContent = "Match nul ! 🤝";
-        scoreNuls++;
-        document.getElementById("scoreNuls").textContent = scoreNuls;
         jeuFini = true;
         return;
     }
 
     joueur = joueur === "X" ? "O" : "X";
 
-    if (joueur === "O" && !jeuFini) {
+    if (mode === "bot" && joueur === "O" && !jeuFini) {
         setTimeout(tourDuBot, 500);
     }
 }
@@ -85,6 +92,8 @@ function tourDuBot() {
         [0,3,6], [1,4,7], [2,5,8],
         [0,4,8], [2,4,6]
     ];
+
+    // Stratégie intelligente
     for (let combi of combinaisons) {
         const [a, b, c] = combi;
         if (cases[a] === "O" && cases[b] === "O" && cases[c] === "") return jouer(c);
@@ -97,10 +106,13 @@ function tourDuBot() {
         if (cases[a] === "X" && cases[b] === "" && cases[c] === "X") return jouer(b);
         if (cases[a] === "" && cases[b] === "X" && cases[c] === "X") return jouer(a);
     }
+
     const casesVides = cases
         .map((val, idx) => val === "" ? idx : null)
         .filter(idx => idx !== null);
+
     if (casesVides.length === 0) return;
+
     const choix = casesVides[Math.floor(Math.random() * casesVides.length)];
     jouer(choix);
 }
@@ -118,23 +130,27 @@ function verifierGagnant() {
 
 function rejouer() {
     cases = Array(9).fill("");
-    document.querySelectorAll(".case").forEach(c => c.textContent = "");
+    document.querySelectorAll(".case").forEach(c => {
+        c.textContent = "";
+    });
     document.getElementById("message").textContent = "";
     jeuFini = false;
-    joueur = Math.random() < 0.5 ? "X" : "O"; // parfois c'est le bot qui commence
-    if (joueur === "O") {
+    joueur = Math.random() < 0.5 ? "X" : "O";
+    if (mode === "bot" && joueur === "O") {
         setTimeout(tourDuBot, 500);
     }
 }
 
-function resetScores() {
+function resetScore() {
     scoreX = 0;
     scoreO = 0;
-    scoreNuls = 0;
+    mettreAJourScore();
+}
+
+function mettreAJourScore() {
     document.getElementById("scoreX").textContent = scoreX;
     document.getElementById("scoreO").textContent = scoreO;
-    document.getElementById("scoreNuls").textContent = scoreNuls;
 }
-</script>
+
 
 {% endblock %}
