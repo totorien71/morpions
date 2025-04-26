@@ -114,12 +114,18 @@
     }
     
     function rejouer() {
-        cases = Array(9).fill("");
-        document.querySelectorAll(".case").forEach(c => c.textContent = "");
-        document.getElementById("message").textContent = "";
-        jeuEnCours = true;
-        joueur = "X"; // ou fais au hasard si tu veux changer
+    cases = Array(9).fill("");
+    document.querySelectorAll(".case").forEach(c => c.textContent = "");
+    document.getElementById("message").textContent = "";
+    jeuEnCours = true;
+    
+    joueur = Math.random() < 0.5 ? "X" : "O"; // tirage au sort
+
+    if (joueur === "O") {
+        setTimeout(tourDuBot, 500);
     }
+}
+
     
     function resetScores() {
         scoreJoueur = 0;
