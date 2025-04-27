@@ -162,7 +162,7 @@
     ];
     for (let c of combinaisons) {
         if (cases[c[0]] && cases[c[0]] === cases[c[1]] && cases[c[1]] === cases[c[2]]) {
-            // Animation sur les cases gagnantes
+            // Animation sur les 3 cases gagnantes
             c.forEach(index => {
                 document.querySelectorAll(".case")[index].classList.add("gagnant");
             });
@@ -172,12 +172,14 @@
     return false;
 }
 
+
+
     
-    function rejouer() {
+function rejouer() {
     cases = Array(9).fill("");
-    document.querySelectorAll(".case").forEach(c => { 
+    document.querySelectorAll(".case").forEach(c => {
         c.textContent = "";
-        c.classList.remove("gagnant"); // Retirer l'animation
+        c.classList.remove("gagnant"); // ← enlève l'animation
     });
     document.getElementById("message").textContent = "";
     jeuFini = false;
@@ -186,6 +188,7 @@
         setTimeout(tourDuBot, 500);
     }
 }
+
 
     
     function resetScore() {

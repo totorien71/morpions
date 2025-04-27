@@ -44,3 +44,16 @@ nav a:hover{
     transform: scale(1.2);
   }
   
+.case.gagnant {
+  animation: clignoter 0.8s infinite alternate;
+  background-color: #90ee90; /* vert clair pour mieux voir */
+}
+
+@keyframes clignoter {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.4;
+  }
+}
