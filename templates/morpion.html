@@ -10,6 +10,9 @@
     <button onclick="choisirMode('humain')">Contre un ami</button>
 </div>
 
+<p id="mode-actuel" style="display: none; font-weight: bold;"></p>
+
+
 <div id="plateau" style="display: none;">
     {% for i in range(9) %}
         <div class="case" data-index="{{ i }}"></div>
@@ -53,6 +56,15 @@ function choisirMode(selection) {
     document.getElementById("score").style.display = "block";
     document.getElementById("btn-rejouer").style.display = "inline-block";
     document.getElementById("btn-reset").style.display = "inline-block";
+
+    // NOUVEAU : afficher le mode choisi
+    const modeActuel = document.getElementById("mode-actuel");
+    modeActuel.style.display = "block";
+    if (mode === "bot") {
+        modeActuel.textContent = "Tu joues contre le bot 🤖";
+    } else {
+        modeActuel.textContent = "Tu joues contre un ami 🧑‍🤝‍🧑";
+    }
 
     joueur = Math.random() < 0.5 ? "X" : "O";
     if (mode === "bot" && joueur === "O") {
