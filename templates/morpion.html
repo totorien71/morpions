@@ -107,13 +107,15 @@ function tourDuBot() {
         [0,4,8], [2,4,6]
     ];
 
-    // Stratégie intelligente
+    // 1. Le bot gagne si possible
     for (let combi of combinaisons) {
         const [a, b, c] = combi;
         if (cases[a] === "O" && cases[b] === "O" && cases[c] === "") return jouer(c);
         if (cases[a] === "O" && cases[b] === "" && cases[c] === "O") return jouer(b);
         if (cases[a] === "" && cases[b] === "O" && cases[c] === "O") return jouer(a);
     }
+
+    // 2. Sinon, il bloque le joueur X s'il peut gagner
     for (let combi of combinaisons) {
         const [a, b, c] = combi;
         if (cases[a] === "X" && cases[b] === "X" && cases[c] === "") return jouer(c);
@@ -121,39 +123,26 @@ function tourDuBot() {
         if (cases[a] === "" && cases[b] === "X" && cases[c] === "X") return jouer(a);
     }
 
+    // 3. Sinon, il prend le centre si libre
+    if (cases[4] === "") return jouer(4);
+
+    // 4. Sinon, il prend un coin libre (0, 2, 6, 8)
+    const coins = [0, 2, 6, 8].filter(idx => cases[idx] === "");
+    if (coins.length > 0) {
+        const choix = coins[Math.floor(Math.random() * coins.length)];
+        return jouer(choix);
+    }
+
+    // 5. Sinon, il prend une case restante au hasard
     const casesVides = cases
         .map((val, idx) => val === "" ? idx : null)
         .filter(idx => idx !== null);
-
-    if (casesVides.length === 0) return;
-
-    const choix = casesVides[Math.floor(Math.random() * casesVides.length)];
-    jouer(choix);
-}
-
-function verifierGagnant() {
-    const combinaisons = [
-        [0,1,2], [3,4,5], [6,7,8],
-        [0,3,6], [1,4,7], [2,5,8],
-        [0,4,8], [2,4,6]
-    ];
-    return combinaisons.some(c =>
-        cases[c[0]] && cases[c[0]] === cases[c[1]] && cases[c[1]] === cases[c[2]]
-    );
-}
-
-function rejouer() {
-    cases = Array(9).fill("");
-    document.querySelectorAll(".case").forEach(c => {
-        c.textContent = "";
-    });
-    document.getElementById("message").textContent = "";
-    jeuFini = false;
-    joueur = Math.random() < 0.5 ? "X" : "O";
-    if (mode === "bot" && joueur === "O") {
-        setTimeout(tourDuBot, 500);
+    if (casesVides.length > 0) {
+        const choix = casesVides[Math.floor(Math.random() * casesVides.length)];
+        jouer(choix);
     }
 }
+
 
 function resetScore() {
     scoreX = 0;
