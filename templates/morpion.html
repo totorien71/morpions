@@ -155,26 +155,38 @@
     }
     
     function verifierGagnant() {
-        const combinaisons = [
-            [0,1,2], [3,4,5], [6,7,8],
-            [0,3,6], [1,4,7], [2,5,8],
-            [0,4,8], [2,4,6]
-        ];
-        return combinaisons.some(c =>
-            cases[c[0]] && cases[c[0]] === cases[c[1]] && cases[c[1]] === cases[c[2]]
-        );
-    }
-    
-    function rejouer() {
-        cases = Array(9).fill("");
-        document.querySelectorAll(".case").forEach(c => { c.textContent = ""; });
-        document.getElementById("message").textContent = "";
-        jeuFini = false;
-        joueur = Math.random() < 0.5 ? "X" : "O";
-        if (mode === "bot" && joueur === "O") {
-            setTimeout(tourDuBot, 500);
+    const combinaisons = [
+        [0,1,2], [3,4,5], [6,7,8],
+        [0,3,6], [1,4,7], [2,5,8],
+        [0,4,8], [2,4,6]
+    ];
+    for (let c of combinaisons) {
+        if (cases[c[0]] && cases[c[0]] === cases[c[1]] && cases[c[1]] === cases[c[2]]) {
+            // Animation sur les cases gagnantes
+            c.forEach(index => {
+                document.querySelectorAll(".case")[index].classList.add("gagnant");
+            });
+            return true;
         }
     }
+    return false;
+}
+
+    
+    function rejouer() {
+    cases = Array(9).fill("");
+    document.querySelectorAll(".case").forEach(c => { 
+        c.textContent = "";
+        c.classList.remove("gagnant"); // Retirer l'animation
+    });
+    document.getElementById("message").textContent = "";
+    jeuFini = false;
+    joueur = Math.random() < 0.5 ? "X" : "O";
+    if (mode === "bot" && joueur === "O") {
+        setTimeout(tourDuBot, 500);
+    }
+}
+
     
     function resetScore() {
         scoreX = 0;
