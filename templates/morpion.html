@@ -6,8 +6,16 @@
 <h1>🎮 Jeu du Morpion</h1>
 
 <div id="choix-mode">
+    <h2>Choisis le mode :</h2>
     <button onclick="choisirMode('bot')">Contre le Bot</button>
-    <button onclick="choisirMode('humain')">Contre un ami</button>
+    <button onclick="choisirMode('humain')">Deux Joueurs</button>
+</div>
+
+<div id="choix-difficulte" style="display:none;">
+    <h2>Choisis la difficulté :</h2>
+    <button onclick="choisirDifficulte('facile')">Facile</button>
+    <button onclick="choisirDifficulte('normal')">Normal</button>
+    <button onclick="choisirDifficulte('difficile')">Difficile</button>
 </div>
 
 <p id="mode-actuel" style="display: none; font-weight: bold;"></p>
@@ -35,6 +43,7 @@
     let scoreX = 0;
     let scoreO = 0;
     let mode = ""; // 'bot' ou 'humain'
+    let difficulte = "normal"; // 'facile', 'normal', 'difficile'
     let jeuFini = false;
     
     document.addEventListener("DOMContentLoaded", () => {
@@ -52,6 +61,19 @@
     function choisirMode(selection) {
         mode = selection;
         document.getElementById("choix-mode").style.display = "none";
+        document.getElementById("choix-difficulte").style.display = mode === "bot" ? "block" : "none";
+        if (mode === "humain") {
+            demarrerJeu();
+        }
+    }
+    
+    function choisirDifficulte(niveau) {
+        difficulte = niveau;
+        document.getElementById("choix-difficulte").style.display = "none";
+        demarrerJeu();
+    }
+    
+    function demarrerJeu() {
         document.getElementById("plateau").style.display = "grid";
         document.getElementById("score").style.display = "block";
         document.getElementById("btn-rejouer").style.display = "inline-block";
@@ -98,8 +120,16 @@
             [0,4,8], [2,4,6]
         ];
     
-        // 80% du temps, le bot joue intelligemment
-        if (Math.random() < 0.8) {
+        let chanceIntelligente;
+        if (difficulte === "facile") {
+            chanceIntelligente = 0.4; // 40% de jouer intelligemment
+        } else if (difficulte === "normal") {
+            chanceIntelligente = 0.8; // 80% de jouer intelligemment
+        } else {
+            chanceIntelligente = 0.95; // 95% de jouer intelligemment
+        }
+    
+        if (Math.random() < chanceIntelligente) {
             for (let combi of combinaisons) {
                 const [a, b, c] = combi;
                 if (cases[a] === "O" && cases[b] === "O" && cases[c] === "") return jouer(c);
@@ -114,7 +144,6 @@
             }
         }
     
-        // 20% du temps, ou si pas de coup intelligent => joue aléatoirement
         const casesVides = cases
             .map((val, idx) => val === "" ? idx : null)
             .filter(idx => idx !== null);
@@ -157,6 +186,6 @@
         document.getElementById("scoreX").textContent = scoreX;
         document.getElementById("scoreO").textContent = scoreO;
     }
-    </script>  
+    </script>
 
 {% endblock %}
