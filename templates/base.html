@@ -5,6 +5,9 @@
     <title>{% block titre %}Mon site{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
+<audio id="sonVictoire" src="{{ url_for('static', filename='son/victoire.mp3') }}"></audio>
+
 <body>
     <nav>
         <a href="/">Accueil</a>

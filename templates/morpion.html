@@ -94,6 +94,7 @@
         if (verifierGagnant()) {
             document.getElementById("message").textContent = "Le joueur " + joueur + " a gagné ! 🎉";
             jeuFini = true;
+            document.getElementById("SonVictoire").play();
             if (joueur === "X") scoreX++;
             else scoreO++;
             mettreAJourScore();
