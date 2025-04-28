@@ -89,49 +89,40 @@
     }
     
     function jouer(index) {
-        if (cases[index] !== "" || jeuFini) return;
-    
-        cases[index] = joueur;
-        document.querySelectorAll(".case")[index].textContent = joueur;
+    if (cases[index] !== "" || jeuFini) return;
 
-        const victoire = verifierGagnant();
+    cases[index] = joueur;
+    document.querySelectorAll(".case")[index].textContent = joueur;
+
+    const victoire = verifierGagnant();
     if (victoire) {
-    document.getElementById("message").textContent = "Le joueur " + joueur + " a gagné ! 🎉";
-    victoire.forEach(idx => {
-        document.querySelectorAll(".case")[idx].classList.add('victoire');
-    });
-    jeuFini = true;
-    if (joueur === "X") scoreX++;
-    else scoreO++;
-    mettreAJourScore();
-    jouerSonVictoire();
-    return;
+        document.getElementById("message").textContent = "Le joueur " + joueur + " a gagné ! 🎉";
+
+        victoire.forEach(idx => {
+            document.querySelectorAll(".case")[idx].classList.add('victoire');
+        });
+
+        jeuFini = true;
+        if (joueur === "X") scoreX++;
+        else scoreO++;
+        mettreAJourScore();
+        jouerSonVictoire(); // 🔵 jouer le son ici
+        return;
+    }
+
+    if (cases.every(c => c !== "")) {
+        document.getElementById("message").textContent = "Match nul ! 🤝";
+        jeuFini = true;
+        return;
+    }
+
+    joueur = joueur === "X" ? "O" : "X";
+
+    if (mode === "bot" && joueur === "O" && !jeuFini) {
+        setTimeout(tourDuBot, 500);
+    }
 }
 
-    
-        if (verifierGagnant()) {
-            document.getElementById("message").textContent = "Le joueur " + joueur + " a gagné ! 🎉";
-            jeuFini = true;
-            document.getElementById("audioVictoire").play();
-            if (joueur === "X") scoreX++;
-            else scoreO++;
-            mettreAJourScore();
-            return;
-        }
-    
-        if (cases.every(c => c !== "")) {
-            document.getElementById("message").textContent = "Match nul ! 🤝";
-            jeuFini = true;
-            return;
-        }
-    
-        joueur = joueur === "X" ? "O" : "X";
-    
-        if (mode === "bot" && joueur === "O" && !jeuFini) {
-            setTimeout(tourDuBot, 500);
-        }
-    }
-    
     function tourDuBot() {
         const combinaisons = [
             [0,1,2], [3,4,5], [6,7,8],
