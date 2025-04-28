@@ -206,6 +206,14 @@ function rejouer() {
         document.getElementById("scoreX").textContent = scoreX;
         document.getElementById("scoreO").textContent = scoreO;
     }
+
+    function jouerSonVictoire() {
+    const audio = document.getElementById("AudioVictoire");
+    audio.currentTime = 0; // Remet au début
+    audio.play();
+}
+
+
     </script>
 
 {% endblock %}
