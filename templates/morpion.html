@@ -40,6 +40,9 @@
 <button onclick="rejouer()" id="btn-rejouer" style="display: none;">Rejouer</button>
 <button onclick="resetScore()" id="btn-reset" style="display: none;">Réinitialiser Scores</button>
 
+<button onclick="retourMenu()" id="btn-retour" style="display: none;">Retour au Menu</button>
+
+
 <script>
     let joueur = "X";
     let cases = Array(9).fill("");
@@ -77,16 +80,18 @@
     }
     
     function demarrerJeu() {
-        document.getElementById("plateau").style.display = "grid";
-        document.getElementById("score").style.display = "block";
-        document.getElementById("btn-rejouer").style.display = "inline-block";
-        document.getElementById("btn-reset").style.display = "inline-block";
+    document.getElementById("plateau").style.display = "grid";
+    document.getElementById("score").style.display = "block";
+    document.getElementById("btn-rejouer").style.display = "inline-block";
+    document.getElementById("btn-reset").style.display = "inline-block";
+    document.getElementById("btn-retour").style.display = "inline-block"; // 🔵 ici
     
-        joueur = Math.random() < 0.5 ? "X" : "O";
-        if (mode === "bot" && joueur === "O") {
-            setTimeout(tourDuBot, 500);
-        }
+    joueur = Math.random() < 0.5 ? "X" : "O";
+    if (mode === "bot" && joueur === "O") {
+        setTimeout(tourDuBot, 500);
     }
+}
+
     
     function jouer(index) {
     if (cases[index] !== "" || jeuFini) return;
@@ -213,6 +218,31 @@ function rejouer() {
     audio.play();
 }
 
+function retourMenu() {
+    // Vider la grille
+    cases = Array(9).fill("");
+    document.querySelectorAll(".case").forEach(c => {
+        c.textContent = "";
+        c.classList.remove('victoire');
+    });
+
+    // Cacher tout ce qui concerne la partie
+    document.getElementById("plateau").style.display = "none";
+    document.getElementById("score").style.display = "none";
+    document.getElementById("btn-rejouer").style.display = "none";
+    document.getElementById("btn-reset").style.display = "none";
+    document.getElementById("btn-retour").style.display = "none";
+    document.getElementById("message").textContent = "";
+
+    // Montrer le choix du mode
+    document.getElementById("choix-mode").style.display = "block";
+    document.getElementById("choix-difficulte").style.display = "none";
+
+    // Remettre le jeu en attente
+    jeuFini = false;
+    joueur = "X";
+    mode = "";
+}
 
     </script>
 
