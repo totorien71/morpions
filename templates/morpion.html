@@ -5,6 +5,9 @@
 {% block contenu %}
 <h1>🎮 Jeu du Morpion</h1>
 
+<audio id="audioVictoire" src="{{ url_for('static', filename='sounds/victoire.mp3') }}"></audio>
+
+
 <div id="choix-mode">
     <h2>Choisis le mode :</h2>
     <button onclick="choisirMode('bot')">Contre le Bot</button>
