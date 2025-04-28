@@ -57,3 +57,13 @@ nav a:hover{
     opacity: 0.4;
   }
 }
+
+@keyframes clignoter {
+  0% { background-color: #90ee90; }
+  50% { background-color: #32cd32; }
+  100% { background-color: #90ee90; }
+}
+
+.case.victoire {
+  animation: clignoter 1s infinite;
+}

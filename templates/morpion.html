@@ -93,6 +93,21 @@
     
         cases[index] = joueur;
         document.querySelectorAll(".case")[index].textContent = joueur;
+
+        const victoire = verifierGagnant();
+    if (victoire) {
+    document.getElementById("message").textContent = "Le joueur " + joueur + " a gagné ! 🎉";
+    victoire.forEach(idx => {
+        document.querySelectorAll(".case")[idx].classList.add('victoire');
+    });
+    jeuFini = true;
+    if (joueur === "X") scoreX++;
+    else scoreO++;
+    mettreAJourScore();
+    jouerSonVictoire();
+    return;
+}
+
     
         if (verifierGagnant()) {
             document.getElementById("message").textContent = "Le joueur " + joueur + " a gagné ! 🎉";
@@ -164,26 +179,20 @@
         [0,3,6], [1,4,7], [2,5,8],
         [0,4,8], [2,4,6]
     ];
-    for (let c of combinaisons) {
-        if (cases[c[0]] && cases[c[0]] === cases[c[1]] && cases[c[1]] === cases[c[2]]) {
-            // Animation sur les 3 cases gagnantes
-            c.forEach(index => {
-                document.querySelectorAll(".case")[index].classList.add("gagnant");
-            });
-            return true;
+    for (let combi of combinaisons) {
+        const [a, b, c] = combi;
+        if (cases[a] && cases[a] === cases[b] && cases[b] === cases[c]) {
+            return combi; // On retourne la combinaison gagnante
         }
     }
-    return false;
+    return null; // Pas de gagnant
 }
 
-
-
-    
 function rejouer() {
     cases = Array(9).fill("");
     document.querySelectorAll(".case").forEach(c => {
         c.textContent = "";
-        c.classList.remove("gagnant"); // ← enlève l'animation
+        c.classList.remove('victoire');
     });
     document.getElementById("message").textContent = "";
     jeuFini = false;
@@ -192,6 +201,7 @@ function rejouer() {
         setTimeout(tourDuBot, 500);
     }
 }
+
 
 
     
