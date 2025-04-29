@@ -1,35 +1,39 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
-app.secret_key = "vraiment-secret"  # Ne le partage pas si tu mets le site en ligne
+app.secret_key = "motdepasse_secret"  # Ne change pas
 
-# 🔐 Mot de passe que tu donnes à ta famille
-PASSWORD = "famille123"
+@app.route("/")
+def accueil():
+    return render_template("accueil.html")
 
-# 🏠 Page d'accueil avec mot de passe
-@app.route("/", methods=["GET", "POST"])
+@app.route("/contact")
+def contact():
+    return render_template("contact.html")
+
+@app.route("/a-propos")
+def a_propos():
+    return render_template("a_propos.html")
+
+@app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        if request.form["motdepasse"] == PASSWORD:
+        mot_de_passe = request.form.get("motdepasse")
+        if mot_de_passe == "1234":  # Change ici ton mot de passe si tu veux
             session["autorise"] = True
             return redirect(url_for("morpion"))
-        else:
-            return render_template("login.html", erreur="Mot de passe incorrect.")
     return render_template("login.html")
 
-# 🎮 Page du jeu (protégée)
 @app.route("/morpion")
 def morpion():
     if not session.get("autorise"):
         return redirect(url_for("login"))
     return render_template("morpion.html")
 
-# 🔁 Permet à ta famille de se déconnecter
 @app.route("/logout")
 def logout():
     session.clear()
-    return redirect(url_for("login"))
+    return redirect(url_for("accueil"))
 
-# 🚀 Lancer l'application
 if __name__ == "__main__":
     app.run(debug=True)
