@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block titre %}Accueil{% endblock %}
+
+{% block contenu %}
+<h1>Bienvenue sur mon site !</h1>
+
+<ul>
+    <li><a href="{{ url_for('morpion') }}">🎮 Jouer au Morpion</a></li>
+    <li><a href="{{ url_for('contact') }}">📬 Page de Contact</a></li>
+    <li><a href="{{ url_for('a_propos') }}">ℹ️ À propos</a></li>
+</ul>
+{% endblock %}
