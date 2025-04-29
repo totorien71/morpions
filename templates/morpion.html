@@ -8,13 +8,13 @@
 <audio id="audioVictoire" src="{{ url_for('static', filename='sounds/victoire.mp3') }}"></audio>
 
 
-<div id="choix-mode">
+<div id="choix-mode" class="fade">
     <h2>Choisis le mode :</h2>
     <button onclick="choisirMode('bot')">Contre le Bot</button>
     <button onclick="choisirMode('humain')">Deux Joueurs</button>
 </div>
 
-<div id="choix-difficulte" style="display:none;">
+<div id="choix-difficulte" class="fade" style="display:none;">
     <h2>Choisis la difficulté :</h2>
     <button onclick="choisirDifficulte('facile')">Facile</button>
     <button onclick="choisirDifficulte('normal')">Normal</button>
@@ -24,7 +24,7 @@
 <p id="mode-actuel" style="display: none; font-weight: bold;"></p>
 
 
-<div id="plateau" style="display: none;">
+<div id="plateau" class="fade" style="display: none;">
     {% for i in range(9) %}
         <div class="case" data-index="{{ i }}"></div>
     {% endfor %}
@@ -219,30 +219,41 @@ function rejouer() {
 }
 
 function retourMenu() {
-    // Vider la grille
-    cases = Array(9).fill("");
-    document.querySelectorAll(".case").forEach(c => {
-        c.textContent = "";
-        c.classList.remove('victoire');
-    });
+    // Animation : disparition douce
+    document.getElementById("plateau").classList.add("fade-cacher");
+    document.getElementById("score").classList.add("fade-cacher");
+    document.getElementById("btn-rejouer").classList.add("fade-cacher");
+    document.getElementById("btn-reset").classList.add("fade-cacher");
+    document.getElementById("btn-retour").classList.add("fade-cacher");
+    document.getElementById("message").classList.add("fade-cacher");
 
-    // Cacher tout ce qui concerne la partie
-    document.getElementById("plateau").style.display = "none";
-    document.getElementById("score").style.display = "none";
-    document.getElementById("btn-rejouer").style.display = "none";
-    document.getElementById("btn-reset").style.display = "none";
-    document.getElementById("btn-retour").style.display = "none";
-    document.getElementById("message").textContent = "";
+    setTimeout(() => {
+        // Après l'animation (~500ms), on cache les éléments
+        document.getElementById("plateau").style.display = "none";
+        document.getElementById("score").style.display = "none";
+        document.getElementById("btn-rejouer").style.display = "none";
+        document.getElementById("btn-reset").style.display = "none";
+        document.getElementById("btn-retour").style.display = "none";
+        document.getElementById("message").textContent = "";
 
-    // Montrer le choix du mode
-    document.getElementById("choix-mode").style.display = "block";
-    document.getElementById("choix-difficulte").style.display = "none";
+        // Réinitialiser la grille
+        cases = Array(9).fill("");
+        document.querySelectorAll(".case").forEach(c => {
+            c.textContent = "";
+            c.classList.remove('victoire');
+        });
 
-    // Remettre le jeu en attente
-    jeuFini = false;
-    joueur = "X";
-    mode = "";
+        // Réapparition douce du menu
+        document.getElementById("choix-mode").style.display = "block";
+        document.getElementById("choix-mode").classList.remove("fade-cacher");
+        document.getElementById("choix-difficulte").style.display = "none";
+
+        jeuFini = false;
+        joueur = "X";
+        mode = "";
+    }, 500); // attendre la fin de la transition
 }
+
 
     </script>
 
