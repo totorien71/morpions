@@ -10,7 +10,7 @@ def accueil():
 def contact():
     return render_template("contact.html")
 
-@app.route("/a-propos")
+@app.route("/apropos")
 def a_propos():
     return render_template("apropos.html")
 
