@@ -7,7 +7,7 @@ def accueil():
     return render_template("accueil.html")
 
 @app.route("/contact")
-def contact():
+def newsetrésultats():
     return render_template("contact.html")
 
 @app.route("/apropos")
