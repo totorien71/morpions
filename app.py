@@ -12,7 +12,7 @@ def news_et_résultats():
 
 @app.route("/a-propos")
 def a_propos():
-    return render_template("a_propos.html")
+    return render_template("apropos.html")
 
 @app.route("/morpion")
 def morpion():
