@@ -100,3 +100,29 @@ footer, .text-center {
   color: #888;
   font-size: 14px;
 }
+/* Responsive : petits écrans */
+@media (max-width: 600px) {
+  main {
+      padding: 15px;
+  }
+
+  h1, h2 {
+      font-size: 24px;
+  }
+
+  #plateau {
+      grid-template-columns: repeat(3, 80px);
+      grid-gap: 8px;
+  }
+
+  .case {
+      width: 80px;
+      height: 80px;
+      font-size: 28px;
+  }
+
+  button {
+      font-size: 14px;
+      padding: 8px 12px;
+  }
+}
