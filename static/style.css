@@ -1,79 +1,84 @@
-body{
-    font-family: Arial, sans-serif;
-    margin:40px;
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, #d4fc79, #96e6a1);
+  margin: 0;
+  padding: 0;
+  color: #333;
+  text-align: center;
 }
-nav{
-    background-color: #333;
-    padding: 10px;
-    margin-bottom: 20px;
+
+h1, h2 {
+  color: #1f3c88;
+  margin-top: 20px;
 }
-nav a{
-    color: white;
-    text-decoration: none;
-    margin-right: 15px;
-    font-weight: bold;
+
+button {
+  padding: 10px 20px;
+  margin: 10px;
+  border: none;
+  border-radius: 8px;
+  background-color: #1f3c88;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
-nav a:hover{
-    text-decoration: underline;
+
+button:hover {
+  background-color: #3b5998;
 }
+
 #plateau {
-    display: grid;
-    grid-template-columns: repeat(3, 100px);
-    grid-gap: 5px;
-    margin: 20px auto;
-    width: max-content;
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-gap: 5px;
+  justify-content: center;
+  margin-top: 20px;
 }
 
 .case {
-    width: 100px;
-    height: 100px;
-    font-size: 40px;
-    text-align: center;
-    line-height: 100px;
-    background-color: #f0f0f0;
-    cursor: pointer;
-    border: 2px solid #333;
+  width: 100px;
+  height: 100px;
+  font-size: 2.5rem;
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
-.case {
-    transition: background-color 0.5s, transform 0.5s;
-  }
-  
-  .gagnant {
-    background-color: #4CAF50; /* Vert clair */
-    transform: scale(1.2);
-  }
-  
-.case.gagnant {
-  animation: clignoter 0.8s infinite alternate;
-  background-color: #90ee90; /* vert clair pour mieux voir */
+.case:hover {
+  background-color: #f0f0f0;
 }
 
-@keyframes clignoter {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0.4;
-  }
+.victoire {
+  background-color: #ffe066 !important;
+  animation: flash 0.4s ease-in-out alternate infinite;
 }
 
-@keyframes clignoter {
-  0% { background-color: #90ee90; }
-  50% { background-color: #32cd32; }
-  100% { background-color: #90ee90; }
+@keyframes flash {
+  from { transform: scale(1); }
+  to { transform: scale(1.1); }
 }
 
-.case.victoire {
-  animation: clignoter 1s infinite;
+#message {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-top: 20px;
 }
 
-.fade {
-  transition: opacity 0.5s ease;
-  opacity: 1;
+#score {
+  font-size: 1.1rem;
+  margin-top: 10px;
 }
 
-.fade-cacher {
-  opacity: 0;
-  pointer-events: none;
+a {
+  color: #1f3c88;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }
