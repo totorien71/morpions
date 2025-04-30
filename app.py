@@ -10,10 +10,6 @@ def accueil():
 def news_et_résultats():
     return render_template("news et résultats.html")
 
-@app.route("/classement")
-def classement():
-    return render_template("classement.html")
-
 
 @app.route("/apropos")
 def a_propos():
