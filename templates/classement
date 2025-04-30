@@ -1,54 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>Classement</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #aaa;
-            padding: 8px;
-            text-align: center;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
 </head>
 <body>
-    <h1>🏀 Classement Basket</h1>
-    <table>
-        <tr>
-            <th>Pos</th>
-            <th>Équipe</th>
-            <th>V</th>
-            <th>D</th>
-            <th>% Victoire</th>
-            <th>Pts+</th>
-            <th>Pts-</th>
-            <th>DIFF</th>
-        </tr>
-        <tr><td>1</td><td>AS Monaco</td><td>22</td><td>5</td><td>81.48</td><td>2386</td><td>2059</td><td>12.12</td></tr>
-        <tr><td>2</td><td>LDLC ASVEL</td><td>21</td><td>6</td><td>77.78</td><td>2418</td><td>2209</td><td>7.74</td></tr>
-        <tr><td>3</td><td>Paris Basketball</td><td>20</td><td>6</td><td>76.92</td><td>2460</td><td>2229</td><td>8.88</td></tr>
-        <tr><td>4</td><td>Cholet Basket</td><td>19</td><td>8</td><td>70.37</td><td>2292</td><td>2187</td><td>3.88</td></tr>
-        <tr><td>5</td><td>Bourg-en-Bresse</td><td>16</td><td>11</td><td>59.26</td><td>2401</td><td>2258</td><td>5.30</td></tr>
-        <tr><td>6</td><td>Le Mans</td><td>15</td><td>12</td><td>55.56</td><td>2351</td><td>2246</td><td>3.89</td></tr>
-        <tr><td>7</td><td>Elan Chalon</td><td>13</td><td>14</td><td>48.15</td><td>2363</td><td>2358</td><td>0.18</td></tr>
-        <tr><td>8</td><td>SLUC Nancy</td><td>13</td><td>14</td><td>48.15</td><td>2288</td><td>2379</td><td>-3.37</td></tr>
-        <tr><td>9</td><td>JDA Dijon</td><td>12</td><td>14</td><td>46.15</td><td>2172</td><td>2193</td><td>-0.81</td></tr>
-        <tr><td>10</td><td>Saint-Quentin</td><td>12</td><td>15</td><td>44.44</td><td>2082</td><td>2149</td><td>-2.48</td></tr>
-        <tr><td>11</td><td>BCM</td><td>11</td><td>16</td><td>40.74</td><td>2178</td><td>2261</td><td>-3.08</td></tr>
-        <tr><td>12</td><td>Strasbourg IG</td><td>11</td><td>16</td><td>40.74</td><td>2138</td><td>2252</td><td>-4.22</td></tr>
-        <tr><td>13</td><td>Nanterre 92</td><td>10</td><td>17</td><td>37.04</td><td>2251</td><td>2327</td><td>-2.81</td></tr>
-        <tr><td>14</td><td>CSP Limoges</td><td>9</td><td>18</td><td>33.33</td><td>2169</td><td>2346</td><td>-6.55</td></tr>
-        <tr><td>15</td><td>Le Portel</td><td>7</td><td>20</td><td>25.93</td><td>1998</td><td>2213</td><td>-7.96</td></tr>
-        <tr><td>16</td><td>Stade Rochelais Basket</td><td>4</td><td>23</td><td>14.81</td><td>1966</td><td>2247</td><td>-10.41</td></tr>
-    </table>
-    <br>
-    <a href="/">🏠 Retour à l'accueil</a>
+    <h1>Classement fonctionne 🎉</h1>
 </body>
 </html>
