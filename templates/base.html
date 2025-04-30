@@ -2,23 +2,28 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>{% block titre %}Mon site{% endblock %}</title>
+    <title>{% block titre %}Mon Site{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
-    <nav>
-        <a href="/">Accueil</a>
-        <a href="/contact">Contact</a>
-        <a href="/morpion">Morpion</a>
-        <a href="/apropos"> a propos</a>
-    </nav>
+    <header>
+        <h1><a href="{{ url_for('accueil') }}">🌐 Mon Site</a></h1>
+        <nav>
+            <a href="{{ url_for('accueil') }}">Accueil</a> |
+            <a href="{{ url_for('contact') }}">Contact</a> |
+            <a href="{{ url_for('a_propos') }}">À propos</a> |
+            <a href="{{ url_for('morpion') }}">Morpion</a>
+        </nav>
+        <hr>
+    </header>
 
-    <div class="contenu">
-        {% block contenu %}
-        <!-- Contenu spécifique à chaque page -->
-        {% endblock %}
-    </div>
-    
+    <main>
+        {% block contenu %}{% endblock %}
+    </main>
+
+    <footer>
+        <hr>
+        <p>© 2025 - Mon Site Personnel</p>
+    </footer>
 </body>
 </html>
