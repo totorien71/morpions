@@ -5,25 +5,86 @@
 {% block contenu %}
     <h1>News et résultats</h1>
     <p>Voici les news et résultats de l'élan Chalon.</p>
-    <p>résultats</p>
-    <div class="bracket">
-  <div class="round quarter-finals">
-    <div class="match">1. Monaco vs JDA Dijon</div>
-    <div class="match">4. Cholet vs Bourg-en-Bresse</div>
+  <!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Playoffs Betclic</title>
+  <style>
+    body {
+      background: linear-gradient(#000428, #004e92);
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .bracket {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .round {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .match {
+      background: #001f5b;
+      color: white;
+      padding: 15px;
+      border: 2px solid #ffd700;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .match:hover {
+      background: #003c9e;
+    }
+
+    .winner {
+      background: #00cc66 !important;
+    }
+  </style>
+</head>
+<body>
+  <h1>Playoffs Betclic ELITE 2025</h1>
+  <div class="bracket">
+    <div class="round quarter-finals">
+      <div class="match">1. Monaco vs JDA Dijon</div>
+      <div class="match">4. Cholet vs Bourg-en-Bresse</div>
+    </div>
+    <div class="round semi-finals">
+      <div class="match">Demi-finale A</div>
+    </div>
+    <div class="round finale">
+      <div class="match">Finale</div>
+    </div>
+    <div class="round semi-finals">
+      <div class="match">Demi-finale B</div>
+    </div>
+    <div class="round quarter-finals">
+      <div class="match">2. ASVEL vs Elan Chalon</div>
+      <div class="match">3. Paris vs Le Mans</div>
+    </div>
   </div>
-  <div class="round semi-finals">
-    <div class="match">Vainqueur 1 vs Vainqueur 4</div>
-  </div>
-  <div class="round finale">
-    <div class="match">Finale</div>
-  </div>
-  <div class="round semi-finals">
-    <div class="match">Vainqueur 2 vs Vainqueur 3</div>
-  </div>
-  <div class="round quarter-finals">
-    <div class="match">2. ASVEL vs Elan Chalon</div>
-    <div class="match">3. Paris vs Le Mans</div>
-  </div>
-</div>
+
+  <script>
+    const matches = document.querySelectorAll('.match');
+    matches.forEach(match => {
+      match.addEventListener('click', () => {
+        match.classList.toggle('winner');
+      });
+    });
+  </script>
+</body>
+</html>
 {% endblock %}
 
