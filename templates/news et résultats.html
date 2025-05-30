@@ -39,20 +39,20 @@
     <div class="round">
       <h2>Quarts</h2>
       <div class="match">
-        <button onclick="advance(this, 'semi1')">1 - Paris Basketball</button>
-        <button onclick="advance(this, 'semi1')">8 - JDA Dijon</button>
+        <button onclick="advance(this, 'semi1', 'quart')">1 - Paris Basketball</button>
+        <button onclick="advance(this, 'semi1', 'quart')">8 - JDA Dijon</button>
       </div>
       <div class="match">
-        <button onclick="advance(this, 'semi2')">4 - Cholet</button>
-        <button onclick="advance(this, 'semi2')">5 - JL Bourg</button>
+        <button onclick="advance(this, 'semi2', 'quart')">4 - Cholet</button>
+        <button onclick="advance(this, 'semi2', 'quart')">5 - JL Bourg</button>
       </div>
       <div class="match">
-        <button onclick="advance(this, 'semi3')">2 - LDLC ASVEL</button>
-        <button onclick="advance(this, 'semi3')">7 - Chalon</button>
+        <button onclick="advance(this, 'semi3', 'quart')">2 - LDLC ASVEL</button>
+        <button onclick="advance(this, 'semi3', 'quart')">7 - Chalon</button>
       </div>
       <div class="match">
-        <button onclick="advance(this, 'semi4')">3 - Monaco</button>
-        <button onclick="advance(this, 'semi4')">6 - Le Mans</button>
+        <button onclick="advance(this, 'semi4', 'quart')">3 - Monaco</button>
+        <button onclick="advance(this, 'semi4', 'quart')">6 - Le Mans</button>
       </div>
     </div>
 
@@ -82,22 +82,44 @@
   <h2 id="champion" style="margin-top: 50px;"></h2>
 
   <script>
-    function advance(button, nextId) {
-      const next = document.getElementById(nextId);
-      next.textContent = button.textContent;
+  function advance(button, nextId, round) {
+    const winner = button.textContent;
+    const next = document.getElementById(nextId);
+    next.textContent = winner;
 
-      // Supprime la sélection précédente
-      const siblings = button.parentElement.querySelectorAll("button");
-      siblings.forEach(b => b.classList.remove("selected"));
+    const siblings = button.parentElement.querySelectorAll("button");
+    siblings.forEach(b => b.classList.remove("selected"));
+    button.classList.add("selected");
 
-      // Ajoute la sélection
-      button.classList.add("selected");
-    }
+    fetch("/save", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        round: round,
+        match: nextId,
+        winner: winner
+      })
+    }).then(res => res.json())
+      .then(data => console.log("Sauvegardé:", data))
+      .catch(err => console.error("Erreur:", err));
+  }
 
-    function declareWinner(button) {
-      document.getElementById("champion").textContent = "🏆 Champion : " + button.textContent + " 🏆";
-    }
-  </script>
+  function declareWinner(button) {
+    const winner = button.textContent;
+    document.getElementById("champion").textContent = "🏆 Champion : " + winner + " 🏆";
+
+    fetch("/save", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        round: "finale",
+        match: "finale",
+        winner: winner
+      })
+    });
+  }
+</script>
+
 </body>
 </html>
 <h2>News</h2>
