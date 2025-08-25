@@ -9,10 +9,14 @@
     <header>
         <h1><a href="{{ url_for('accueil') }}">🌐 Elan Chalon</a></h1>
         <nav>
-            <a href="{{ url_for('accueil') }}">Accueil</a> |
-            <a href="{{ url_for('news_et_résultats') }}">News et résultats</a> |
-            <a href="{{ url_for('morpion') }}">Morpion</a> |
-            <a href="{{ url_for('a_propos') }}">À propos</a> |
+           <nav>
+    <a href="{{ url_for('accueil') }}">Accueil</a> |
+    <a href="{{ url_for('news') }}">News et résultats</a> |
+    <a href="{{ url_for('equipes') }}">Équipes</a> |
+    <a href="{{ url_for('morpion') }}">Morpion</a> |
+    <a href="{{ url_for('apropos') }}">À propos</a>
+</nav>
+
         </nav>
         <hr>
     </header>
