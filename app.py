@@ -13,6 +13,11 @@ def accueil():
 def news_et_résultats():
     return render_template("news et résultats.html")
 
+@app.route("/equipes")
+def equipes():
+    return render_template("equipes.html")
+
+
 @app.route("/a-propos")
 def a_propos():
     return render_template("apropos.html")
