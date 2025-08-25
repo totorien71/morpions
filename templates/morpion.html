@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <h2>🎮 Morpion</h2>
-<p>Tu joues contre l’ordinateur (IA simple).</p>
+<p>Tu joues contre l’ordinateur (IA améliorée).</p>
 
 <div id="game">
     <div class="board">
@@ -32,7 +32,7 @@ function handleClick(event) {
     const index = event.target.dataset.index;
     if (board[index] !== "" || !gameActive) return;
 
-    // coup du joueur humain
+    // coup humain
     board[index] = human;
     event.target.textContent = human;
 
@@ -48,18 +48,15 @@ function handleClick(event) {
         return;
     }
 
-    // coup de l’IA
+    // IA joue
     aiMove();
 }
 
 function aiMove() {
-    // IA très simple : choisit une case au hasard
-    let emptyCells = board.map((val, i) => val === "" ? i : null).filter(v => v !== null);
-    if (emptyCells.length === 0) return;
+    let bestMove = findBestMove();
 
-    let choice = emptyCells[Math.floor(Math.random() * emptyCells.length)];
-    board[choice] = ai;
-    cells[choice].textContent = ai;
+    board[bestMove] = ai;
+    cells[bestMove].textContent = ai;
 
     if (checkWin(ai)) {
         statusDisplay.textContent = "😈 L’ordinateur a gagné...";
@@ -74,6 +71,45 @@ function aiMove() {
     }
 
     statusDisplay.textContent = "Ton tour (X)";
+}
+
+function findBestMove() {
+    // 1️⃣ Vérifie si l’IA peut gagner
+    for (let i = 0; i < 9; i++) {
+        if (board[i] === "") {
+            board[i] = ai;
+            if (checkWin(ai)) {
+                board[i] = "";
+                return i;
+            }
+            board[i] = "";
+        }
+    }
+
+    // 2️⃣ Bloque l’humain s’il peut gagner
+    for (let i = 0; i < 9; i++) {
+        if (board[i] === "") {
+            board[i] = human;
+            if (checkWin(human)) {
+                board[i] = "";
+                return i;
+            }
+            board[i] = "";
+        }
+    }
+
+    // 3️⃣ Joue le centre si libre
+    if (board[4] === "") return 4;
+
+    // 4️⃣ Joue un coin libre
+    const corners = [0, 2, 6, 8];
+    for (let c of corners) {
+        if (board[c] === "") return c;
+    }
+
+    // 5️⃣ Sinon, joue n’importe quelle case libre
+    let emptyCells = board.map((val, i) => val === "" ? i : null).filter(v => v !== null);
+    return emptyCells[Math.floor(Math.random() * emptyCells.length)];
 }
 
 function checkWin(player) {
