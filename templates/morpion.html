@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <h2>🎮 Morpion</h2>
-<p>Tu joues contre un ami (pas d’IA pour le moment).</p>
+<p>Tu joues contre l’ordinateur (IA simple).</p>
 
 <div id="game">
     <div class="board">
@@ -15,13 +15,14 @@
         <div class="cell" data-index="7"></div>
         <div class="cell" data-index="8"></div>
     </div>
-    <p id="status">Tour du joueur X</p>
+    <p id="status">Ton tour (X)</p>
     <button onclick="restartGame()">Rejouer</button>
 </div>
 
 <script>
 let board = ["", "", "", "", "", "", "", "", ""];
-let currentPlayer = "X";
+let human = "X";
+let ai = "O";
 let gameActive = true;
 
 const statusDisplay = document.getElementById("status");
@@ -31,11 +32,12 @@ function handleClick(event) {
     const index = event.target.dataset.index;
     if (board[index] !== "" || !gameActive) return;
 
-    board[index] = currentPlayer;
-    event.target.textContent = currentPlayer;
+    // coup du joueur humain
+    board[index] = human;
+    event.target.textContent = human;
 
-    if (checkWin()) {
-        statusDisplay.textContent = `🎉 Joueur ${currentPlayer} a gagné !`;
+    if (checkWin(human)) {
+        statusDisplay.textContent = "🎉 Bravo ! Tu as gagné !";
         gameActive = false;
         return;
     }
@@ -46,30 +48,52 @@ function handleClick(event) {
         return;
     }
 
-    currentPlayer = currentPlayer === "X" ? "O" : "X";
-    statusDisplay.textContent = `Tour du joueur ${currentPlayer}`;
+    // coup de l’IA
+    aiMove();
 }
 
-function checkWin() {
+function aiMove() {
+    // IA très simple : choisit une case au hasard
+    let emptyCells = board.map((val, i) => val === "" ? i : null).filter(v => v !== null);
+    if (emptyCells.length === 0) return;
+
+    let choice = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+    board[choice] = ai;
+    cells[choice].textContent = ai;
+
+    if (checkWin(ai)) {
+        statusDisplay.textContent = "😈 L’ordinateur a gagné...";
+        gameActive = false;
+        return;
+    }
+
+    if (!board.includes("")) {
+        statusDisplay.textContent = "Match nul 🤝";
+        gameActive = false;
+        return;
+    }
+
+    statusDisplay.textContent = "Ton tour (X)";
+}
+
+function checkWin(player) {
     const winConditions = [
         [0,1,2],[3,4,5],[6,7,8], // lignes
         [0,3,6],[1,4,7],[2,5,8], // colonnes
         [0,4,8],[2,4,6]          // diagonales
     ];
     return winConditions.some(cond =>
-        cond.every(i => board[i] === currentPlayer)
+        cond.every(i => board[i] === player)
     );
 }
 
 function restartGame() {
     board = ["", "", "", "", "", "", "", "", ""];
-    currentPlayer = "X";
     gameActive = true;
-    statusDisplay.textContent = "Tour du joueur X";
+    statusDisplay.textContent = "Ton tour (X)";
     cells.forEach(cell => cell.textContent = "");
 }
 
 cells.forEach(cell => cell.addEventListener("click", handleClick));
 </script>
 {% endblock %}
-
