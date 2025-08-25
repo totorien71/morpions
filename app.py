@@ -1,32 +1,26 @@
-from flask import Flask, render_template, request, jsonify
-import json
-import os
+from flask import Flask, render_template
+
 app = Flask(__name__)
 
-DATA_FILE="data/result.json"
-
 @app.route("/")
-def accueil():
-    return render_template("accueil.html")
+def index():
+    return render_template("index.html")
 
-@app.route("/news et résultats")
-def news_et_résultats():
-    return render_template("news et résultats.html")
+@app.route("/news")
+def news():
+    return render_template("news.html")
 
 @app.route("/equipes")
 def equipes():
     return render_template("equipes.html")
 
-
-@app.route("/a-propos")
-def a_propos():
-    return render_template("apropos.html")
-
 @app.route("/morpion")
 def morpion():
     return render_template("morpion.html")
 
-if __name__ == "__main__":
-     port = int(os.environ.get("PORT", 5000))
-app.run(host="0.0.0.0", port=port)
+@app.route("/apropos")
+def apropos():
+    return render_template("apropos.html")
 
+if __name__ == "__main__":
+    app.run(debug=True)
