@@ -1,102 +1,55 @@
-/* --- Style global --- */
 body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #f0f4f8, #d9e4ec);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
     margin: 0;
-}
-
-#game {
+    padding: 0;
+    background: #f4f4f4;
+    color: #222;
     text-align: center;
 }
 
-h1 {
-    color: #333;
-    margin-bottom: 20px;
-    font-size: 2.2rem;
+header {
+    background: #900;
+    color: white;
+    padding: 15px;
 }
 
-/* --- Plateau de jeu --- */
-#board {
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+main {
+    padding: 20px;
+}
+
+footer {
+    margin-top: 40px;
+    background: #222;
+    color: white;
+    padding: 10px;
+}
+.board {
     display: grid;
     grid-template-columns: repeat(3, 100px);
     grid-template-rows: repeat(3, 100px);
-    gap: 10px;
+    gap: 5px;
     justify-content: center;
-    margin: 0 auto;
+    margin: 20px auto;
 }
 
-/* --- Cases --- */
 .cell {
     width: 100px;
     height: 100px;
-    background-color: #ffffff;
-    border-radius: 15px;
+    background: white;
+    border: 2px solid #900;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 2.5rem;
-    font-weight: bold;
+    font-size: 2.5em;
     cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    transition: transform 0.2s, background-color 0.3s;
-}
-
-.cell:hover {
-    transform: scale(1.05);
-    background-color: #f1f1f1;
-}
-
-.cell.taken {
-    cursor: not-allowed;
-    color: #444;
-}
-
-/* --- Animation victoire --- */
-.winner {
-    background-color: #4caf50 !important;
-    color: white !important;
-    animation: pulse 1s infinite alternate;
-}
-
-@keyframes pulse {
-    from { transform: scale(1); }
-    to { transform: scale(1.1); }
-}
-
-/* --- Boutons --- */
-button {
-    margin-top: 20px;
-    padding: 12px 20px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 12px;
-    background-color: #2196f3;
-    color: white;
-    cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    transition: background-color 0.3s, transform 0.2s;
-}
-
-button:hover {
-    background-color: #1976d2;
-    transform: scale(1.05);
-}
-
-/* --- Responsive téléphone --- */
-@media (max-width: 500px) {
-    #board {
-        grid-template-columns: repeat(3, 80px);
-        grid-template-rows: repeat(3, 80px);
-        gap: 8px;
-    }
-
-    .cell {
-        width: 80px;
-        height: 80px;
-        font-size: 2rem;
-    }
 }
